@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once("header.php");
 ?>
 
@@ -9,45 +10,6 @@ include_once("header.php");
     <div class="row" style="height: 2000px;">
         <div class="column left">
 
-            <!----Sidebar Menu----->
-          
-            <nav class="sidebar card py-2 mb-4">
-            <ul class="nav flex-column" id="nav_accordion">
-                <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#">Men's Clothing</a>
-                    <ul class="submenu collapse">
-                        <?php
-                            $select_categories = "SELECT * FROM `mens_categories`";
-                            $result_categories = mysqli_query($conn, $select_categories);
-                            
-                            while($row_data = mysqli_fetch_assoc($result_categories)){
-                            $category_name = $row_data["mens_category_name"];
-                            $category_id = $row_data["mens_category_id"];
-
-                            echo "<li style='border: none;'><a class='nav -link' href='homepage.php?mens_category=$category_name'>$category_name</a></li>";
-                            }
-                            
-                        ?>
-                    </ul>   
-                </li>
-                <li class="nav-item has-submenu">
-                    <a class="nav-link" href="#">Women's Clothing</a>
-                    <ul class="submenu collapse">
-                        <?php
-                            $select_categories = "SELECT * FROM `womens_categories`";
-                            $result_categories = mysqli_query($conn, $select_categories);
-                            
-                            while($row_data = mysqli_fetch_assoc($result_categories)){
-                            $category_name = $row_data["womens_category_name"];
-                            $category_id = $row_data["womens_category_id"];
-
-                            echo "<li style='border: none;'><a class='nav -link' href='homepage.php?womens_category=$category_name'>$category_name</a></li>";
-                            }
-                        ?>
-                    </ul>
-                </li>
-            </ul>
-            </nav>
 
         </div>
         <br>
@@ -72,11 +34,7 @@ include_once("header.php");
                     <!----Page Number Buttons----->
                     <th style="padding-left: 400px;">
                         <div class="nav_buttons">
-                            <br><br>
-                            <button type="btn">1</button>
-                            <button type="btn">2</button>
-                            <button type="btn">3</button>
-                            <button type="btn">4</button>
+                           
                         </div>
                     </th>
                 </tr>   
@@ -106,36 +64,9 @@ include_once("header.php");
 
 
       <!----Footer Section----->
-      <div class="footer">
-        <div class="footer_row">
-            <div class="footer_column">
-                <h4 style="color: white;">About TopBuds</h1>
-                    <h6><a href="aboutus.php">About Us</a></h6>
-                    <h6><a href="">Privacy Policy</a></h6>
-                    <h6><a href="">Terms of Use</a></h6>
-                    <h6><a href="">Contact Us</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Info</h1>
-                    <h6><a href="">My Account</a></h6>
-                    <h6><a href="">My Cart</a></h6>
-                    <h6><a href="">Order Status</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Help and FAQs</h1>
-                    <h6><a href="">Online Ordering</a></h6>
-                    <h6><a href="">Shipping</a></h6>
-                    <h6><a href="">Billing</a></h6>
-                    <h6><a href="">Return Item</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">TopBuds Clothing</h1>
-            </div>
-          </div>
-
-          <hr style="color: white; background-color: white; height: 2px; width: 85%; margin-left: 100px;">
-          <h6 style="margin-top: 130px; text-align: center;">(C) 2022 Topbuds Clothing. All Rights Reserved</h6>
-      </div>
+            <?php
+                include("footer.php");
+            ?>
     
 
     <!---JAVASCRIPT----->

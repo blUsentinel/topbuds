@@ -45,7 +45,7 @@
                 session_start();
                 $_SESSION['admin_auth'] = true;   
                 $_SESSION["admin_username"] = $user_exists["username"];
-                header("Location: main_dashboard.php?successful-login");
+                header("Location: main_dashboard.php?dashboard");
                 exit();
             } else {
                 header("Location: admin.login.php?error=wronglogin");

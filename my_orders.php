@@ -1,12 +1,14 @@
 <?php
-include_once("header.php");
-include_once("includes/functions.inc.php");
-//require("includes/checkout.inc.php");
-?>
+session_start();
+
+    if(isset($_SESSION['auth'])){
+        include_once("header.php");
+        include_once("includes/functions.inc.php");
+        ?>
 
 <body>
     <div class="content">
-      <div class="pt-4">
+      <div class="pt-4 mb-5">
           <?php
            
              if (isset($_SESSION["user_Id"])) {
@@ -30,13 +32,13 @@ include_once("includes/functions.inc.php");
                       }
 
                       ?>
-                        <div class="column left" style="background-color: rgb(255, 255, 255); height: 500px; width: 85%;">
-                            <div class="display shadow-lg" style="height: 500px;">
+                        <div class="contents" style="margin-left: 100px; background-color: rgb(255, 255, 255); width: 85%;">
+                            <div class="display shadow-lg">
                                 <div class="account_info" style="margin-left: 30px;">
 
                                 <h1>My Orders</h1>
 
-                                    <ul class="nav nav-tabs">
+                                    <ul class="nav nav-tabs nav-fill">
                                         <li class="nav-item">
                                             <a class="nav-link" href="my_orders.php?All_Orders">All</a>
                                         </li>
@@ -54,7 +56,7 @@ include_once("includes/functions.inc.php");
                                         </li>
                                     </ul>
 
-                                <div class="tabledata" style="margin-top: -25px; margin-left: -12px; height: 500px; width: 100%;">
+                                <div class="tabledata" style="margin-top: -25px; margin-left: -12px; width: 100%;">
                                     <?php
                                             if(isset($_GET["All_Orders"])){
                                                 include("mo_all_orders.php");
@@ -69,13 +71,14 @@ include_once("includes/functions.inc.php");
                                             } else {
                                                 include("mo_all_orders.php");
                                             }
+                                            
                                     ?>
+                                    
                                 </div>
                                        
-                                            
-                                        
                                         </tbody>   
                                     </table> 
+                                   
                             </div>
                         </div>
                       <?php
@@ -89,37 +92,9 @@ include_once("includes/functions.inc.php");
     </div> 
 
         <!----Footer Section----->
-            <div class="footer">
-                <div class="footer_row">
-                    <div class="footer_column">
-                        <h4 style="color: white;">About TopBuds</h1>
-                            <h6>About Us</h6>
-                            <h6>Privacy Policy</h6>
-                            <h6>Terms of Use</h6>
-                            <h6>Contact Us</h6>
-                    </div>
-                    <div class="footer_column">
-                        <h4 style="color: white;">Info</h1>
-                            <h6>My Account</h6>
-                            <h6>My Cart</h6>
-                            <h6>Order Status</h6>
-                    </div>
-                    <div class="footer_column">
-                        <h4 style="color: white;">Help and FAQs</h1>
-                            <h6>Online Ordering</h6>
-                            <h6>Shipping</h6>
-                            <h6>Billing</h6>
-                            <h6>Return Item</h6>
-                    </div>
-                    <div class="footer_column">
-                        <h4 style="color: white;">TopBuds Clothing</h1>
-                    </div>
-                </div>
-
-                <hr style="color: white; background-color: white; height: 2px; width: 85%; margin-left: 100px;">
-
-                <h6 style="margin-top: 130px; text-align: center;">(C) 2022 Topbuds Clothing. All Rights Reserved</h6>
-            </div>
+            <?php
+                include("footer.php");
+            ?>
 
     
 
@@ -221,5 +196,14 @@ include_once("includes/functions.inc.php");
           }
         }
         </script>
+
+        <?php
+    } else {
+        header("Location: loginpage.php?login_required");
+        exit();
+    }
+?>
+
+
 </body>
 </html>

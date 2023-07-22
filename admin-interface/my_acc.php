@@ -91,7 +91,7 @@ if(empty($_SESSION['admin_username']) || $_SESSION['admin_auth'] == false){
                 <div class="col-9">
                     <div class="container" style="margin-top: 50px; margin-left: -50px;">
 
-                       <h1>Admin Account Info</h1>
+                       <h1 class="mb-5">Admin Account Info</h1>
 
                        <?php
                        if(isset($_SESSION['admin_username'])){
@@ -105,14 +105,13 @@ if(empty($_SESSION['admin_username']) || $_SESSION['admin_auth'] == false){
                                 $email = $row["email_add"];
                                 $password = $row["password"];
                                 ?>
-
-                                    <h3>Username</h3>
-                                    <h3>Email Address</h3>
-                                    <h3>Username</h3>
-                                    <h3>Username</h3>
-
-
-
+                                <div class="row">
+                                    <div class="col-5" style="color: white; background-color: black;">
+                                        <h6>Username: <span class="fw-lighter"><?php echo $username?></span></h6>
+                                        <h6>Email Address: <span class="fw-lighter"><?php echo $email?></span></h6>
+                                    </div>
+                                </div>
+                                  
                                 <?php
                             }
                        }

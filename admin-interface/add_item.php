@@ -1,6 +1,6 @@
 <?php
-include_once("../includes/dbh.inc.php");
-include_once("../includes/functions.inc.php");
+include_once("includes/dbh.inc.php");
+include_once("includes/functions.inc.php");
 
 if(isset($_POST["addItemBtn"])){
     $item_code = rand(1000, 9999);
@@ -8,17 +8,50 @@ if(isset($_POST["addItemBtn"])){
     $item_price = $_POST["item_price"];
     $item_description = $_POST["item_description"];
     $item_keyword = $_POST["item_keyword"];
-    $item_category = $_POST["item_category"];
     $item_status = "Available";
+    // $item_stocks_raw = $_POST["item_stocks"];
+    // $item_stocks = intval($item_stocks_raw);
+    $item_sold = 0;
 
     $size_raw = $_POST['size_check'];
     $uc_first = array_map('ucfirst', $size_raw);
     $size = implode(", ", $uc_first);
 
+    if(isset($_POST["sm_txt"]) == false){
+        $sm = 0;
+    } else {
+        $sm = $_POST["sm_txt"];
+    }
+
+    if(isset($_POST["md_txt"]) == false){
+        $md = 0;
+    } else {
+        $md = $_POST["md_txt"];
+    }   
+
+    if(isset($_POST["lg_txt"]) == false){
+        $lg = 0;
+    } else {
+        $lg = $_POST["lg_txt"];
+    }
+
+    if(isset($_POST["xl_txt"]) == false){
+        $xl = 0;
+    } else {
+        $xl = $_POST["xl_txt"];
+    }
+
+    $total_stocks = $sm + $md + $lg + $xl;
+
+    echo "<script>alert('$sm' + '$md' + '$lg' + '$xl' + '$total_stocks')</script>";
+
     //accessing item images
     $item_image1 = $_FILES["item_image1"]["name"];
     $item_image2 = $_FILES["item_image2"]["name"];
     $item_image3 = $_FILES["item_image3"]["name"];
+
+    //  echo "<script>alert('$size' + ' : ' + '$item_code' + ' : ' + '$item_name' + ' : ' + '$item_price' + ' : ' + '$item_description'
+    // + ' : ' + '$item_keyword' + ' : ' + '$item_status' + ' : ' + '$item_stocks' + ' : ' + '$item_sold' + ' : ' + '$item_image1' + ' : ' + '$item_image2' + ' : ' + '$item_image3')</script>";
 
     //accessing image tmp name
     $temp_item_image1 = $_FILES["item_image1"]["tmp_name"];
@@ -26,8 +59,8 @@ if(isset($_POST["addItemBtn"])){
     $temp_item_image3 = $_FILES["item_image3"]["tmp_name"];
 
     // checks if any forms are empty
-    if(empty($item_name) || empty($item_price) || empty($item_description) || empty($item_keyword) || empty($item_category)
-    || empty($item_image1) || empty($item_image2) || empty($item_image3)){
+    if(empty($item_name) || empty($item_price) || empty($item_description) || empty($item_keyword) 
+    || empty($item_image1) || empty($item_image2) || empty($item_image3) || empty($item_status) || empty($item_sold || empty($item_size))){
         echo "<script>alert('Please fill all the available fields!')</script>";
         exit();
     } else {
@@ -36,19 +69,21 @@ if(isset($_POST["addItemBtn"])){
         move_uploaded_file($temp_item_image3, "./item_images/$item_image3");
 
         //insert query
-        $insert_item = "INSERT INTO `items` 
-        (item_code, item_name, item_price, sizes_available, item_description, item_keyword, item_category,
-         item_image1, item_image2, item_image3, date_added, item_status)
-          VALUES ('$item_code', '$item_name', '$item_price', '$size',
-          '$item_description', '$item_keyword', '$item_category', '$item_image1', '$item_image2', '$item_image3', 
-          NOW(), '$item_status')";
+        $insert_item = "INSERT INTO items 
+        (item_code, item_name, item_price, sizes_available, sm_stocks, md_stocks, lg_stocks, xl_stocks, item_description, item_keyword, item_image1, item_image2, item_image3,
+         date_added, item_status, num_sold, num_left)
+          VALUES 
+        ('$item_code', '$item_name', '$item_price', '$size', '$sm', '$md', '$lg', '$xl', '$item_description', '$item_keyword', '$item_image1', '$item_image2',
+         '$item_image3', NOW(), '$item_status', '$item_sold', '$total_stocks')";
 
         $result_query = mysqli_query($conn, $insert_item);
         if($result_query){
             echo "<script>alert('Item has been successfully delivered to the database!')</script>";
+        } else {
+            echo "<script>alert('An error has occured!')</script>";
         }
     }
-}
+} 
 
 ?>
 
@@ -61,7 +96,8 @@ if(isset($_POST["addItemBtn"])){
     <title>Insert Products</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="page.css">
+    <!-- <link rel="stylesheet" href="page.css"> -->
+  
 </head>
     
 <body>
@@ -93,103 +129,45 @@ if(isset($_POST["addItemBtn"])){
                             </div>
                         </div>
 
+                         <small id="s2" class="form-text fst-italic ps-3">Size<span style="color: red;">*</span></small>
                         <div class="size pt-2 pb-2">
-                            <small id="s2" class="form-text fst-italic ps-3">Size<span style="color: red;">*</span></small>
-                                <input class="form-check-input ms-3" type="checkbox" value="small" name="size_check[]">
-                                    <label class="form-check-label" for="flexCheckDefault">
+                           
+                                <input class="form-check-input ms-3" type="checkbox" value="small" name="size_check[]" id="sm_check">
+                                    <label class="form-check-label">
                                         Small
                                     </label>
+                                <input type="text" style="width: 7%;" id="sm_txt" name="sm_txt" disabled>
 
-                                <input class="form-check-input" type="checkbox" value="medium" name="size_check[]">
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" value="medium" name="size_check[]" id="md_check">
+                                    <label class="form-check-label">
                                         Medium
                                     </label>
+                                <input type="text" style="width: 7%;" id="md_txt" name="md_txt" disabled>
 
-                                <input class="form-check-input" type="checkbox" value="large" name="size_check[]">
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" value="large" name="size_check[]" id="lg_check">
+                                    <label class="form-check-label">
                                         Large
                                     </label>
+                                <input type="text" style="width: 7%;" id="lg_txt" name="lg_txt" disabled>
 
-                                <input class="form-check-input" type="checkbox" value="extra Large" name="size_check[]">
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" value="extra Large" name="size_check[]" id="xl_check">
+                                    <label class="form-check-label">
                                         Extra Large
                                     </label>
+                                <input type="text" style="width: 7%;" id="xl_txt" name="xl_txt" disabled>
                         </div>
-                       
-
-
+                    
                             <div class="form-group ps-3" style="background-color: rgb(255, 255, 255); height: 75px;  margin-bottom: 50px;">
                                 <!---<label for="item_description">Item Description</label>-->
                                 <small id="s3" class="form-text fst-italic">Item Description<span style="color: red;">*</span></small>
                                 <textarea class="form-control" style="height: 100px;" name="item_description" id="item_description" placeholder="Enter Description" required="required"></textarea>
                             </div>
-                            <div class="btn-group pt-3">
-                                <div class="form-group ps-3" style="width: 200px;">
-                                    <small id="s5" class="form-text fst-italic">Gender<span style="color: red;">*</span></small>
-                                        <select class="form-select" name="gender_category" id="gender_category" style="" 
-                                         onchange="checkGenderValue(this.value)" aria-label="Default select example" required="required">
-                                            <option disabled selected>Select a Gender</option>
-                                            <?php
-                                                $select_query = "SELECT * FROM `categories`";
-                                                $resultOfSelectQuery = mysqli_query($conn, $select_query);
-                                                
-                                                while($row = mysqli_fetch_assoc($resultOfSelectQuery)){
-                                                    $category_name = $row["category_name"];
-                                                    $category_id = $row["category_id"];
-
-                                                    echo "<option value='$category_name'>$category_name</option>";
-                                                }
-                                            
-                                            ?>
-                                        </select>
-                                </div>
-                                <div class="form-group ps-3" style="width: 300px;">
-                                    <small id="s5" class="form-text fst-italic">Select a Category<span style="color: red;">*</span></small>
-                                        <select class="form-select" name="item_category" id="item_category" style="" aria-label="Default select example" required="required">
-                                        <option disabled selected>Select a Category</option>
-                                            <?php
-                                                $select_query = "SELECT * FROM mens_categories";
-                                                    $resultOfSelectQuery = mysqli_query($conn, $select_query);
-                           
-                                                    while($row = mysqli_fetch_assoc($resultOfSelectQuery)){
-                                                       $category_name = $row["mens_category_name"];
-                                                       $category_id = $row["mens_category_id"];
-                           
-                                                      echo "<option value='$category_name'>$category_name</option>";
-                                                   }
-
-                                                   $select_query1 = "SELECT * FROM womens_categories";
-                                                   $resultOfSelectQuery1 = mysqli_query($conn, $select_query1);
-                          
-                                                   while($row = mysqli_fetch_assoc($resultOfSelectQuery1)){
-                                                      $category_name1 = $row["womens_category_name"];
-                                                      $category_id1 = $row["womens_category_id"];
-                          
-                                                     echo "<option value='$category_name1'>$category_name1</option>";
-                                                  }
-                                            ?>
-                                        </select>
-                                </div>
-                            </div>
+                            
 
                             
                             
                     </div>
                         <div class="col-4" style="height: 215px;">
-<!-- 
-                        <div class="form-check">
-                            <input class="form-check-input" name="status_check" type="checkbox" value="Available" id="status_check">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Available
-                            </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" name="status_check" type="checkbox" value="Out of Stock" id="status_check">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Out of Stock
-                            </label>
-                        </div> -->
-                                                
 
                             <div class="form-group" style="background-color: rgb(255, 255, 255); height: 75px; width: 260px;">
                                 <small id="s4" class="form-text fst-italic">Item Keyword<span style="color: red;">*</span></small>
@@ -215,11 +193,43 @@ if(isset($_POST["addItemBtn"])){
                 </div>
                 
                 <button type="submit" name="addItemBtn" class="btn btn-warning" style="margin-left: 260px; width: 50%;
-                margin-top: 150px; font-size: 20px;">Add Item</button>
+                margin-top: 200px; font-size: 20px;">Add Item</button>
 
                 <br><br><br>
         </form>
     </div>
+
+    <script>
+
+        $('input[id="sm_check"]').click(function () {
+            $('#sm_txt').prop("disabled", !this.checked);
+        });
+
+        $('input[id="md_check"]').click(function () {
+            $('#md_txt').prop("disabled", !this.checked);
+        });
+
+        $('input[id="lg_check"]').click(function () {
+            $('#lg_txt').prop("disabled", !this.checked);
+        });
+
+        $('input[id="xl_check"]').click(function () {
+            $('#xl_txt').prop("disabled", !this.checked);
+        });
+
+        $("#click").click(function(){
+            var sm = $('#sm_txt').val();
+
+            alert("value is " + sm);
+        }); 
+
+
+        
+        // $("#sm_check").on('change', function(){
+        //     $('#cashAmount').attr("disabled", !$(this).is(':checked'));
+        // })
+
+    </script>
 
 </body>
 </html>

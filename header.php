@@ -1,8 +1,6 @@
 <?php
-    session_start();
     include_once("includes/dbh.inc.php");
     include_once("includes/functions.inc.php");
-    
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +26,7 @@
     <!----Header----->
     <div class="header" id="myHeader">
         <ul class="list-group list-group-horizontal-sm" style="padding-top: 20px; padding-left: 100px; list-style: none;">
-            <li><a href="homepage.php"><h2 style="color: white; padding-top: 7px;">TopBuds</h2></a></li>
+            <li><a href="index.php"><h2 style="color: white; padding-top: 7px;">TopBuds</h2></a></li>
 
                 <li class="mt-3" style="padding-left: 370px; padding-right: 25px;">
                 <a href="all_products.php" style="color: white;">All Products</a>

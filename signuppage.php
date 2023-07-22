@@ -1,32 +1,35 @@
 <?php
-include_once("header.php");
-?>
+session_start();
 
+    if(!isset($_SESSION['auth'])){
+      include_once("header.php");
+    ?>
+    
     <form action="includes/signuppage.inc.php" method="post" style="margin-left: 500px;
      border: 1px solid gray; width: 400px; margin-top: 20px; height: 570px;">
       <h1 style="text-align: center;">Sign Up</h1>
       <div class="form-group" style="height: 75px;">
-        <label for="firstName">First Name</label>
+        <label for="firstName"><span class="text-danger">*</span>First Name</label>
         <input type="text" name="first_name" class="form-control" id="first_name" placeholder="Enter First Name"
         autocomplete="off">
       </div>
       <div class="form-group" style="background-color: rgb(255, 255, 255); height: 75px;">
-        <label for="lastName">Last Name</label>
+        <label for="lastName"><span class="text-danger">*</span>Last Name</label>
         <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Enter Last Name"
         autocomplete="off">
       </div>
       <div class="form-group" style="background-color: rgb(255, 255, 255); height: 75px;">
-        <label for="emailAddress">Email address</label>
+        <label for="emailAddress"><span class="text-danger">*</span>Email address</label>
         <input type="email" name="email_add" class="form-control" id="email_add" aria-describedby="emailHelp" placeholder="Enter email"
         autocomplete="off">
         <small id="emailHelp" class="form-text text-muted"></small>
       </div>
       <div class="form-group" style="height: 75px;">
-        <label for="password">Password</label>
+        <label for="password"><span class="text-danger">*</span>Password</label>
         <input type="password" name="userpass" class="form-control" id="userpass" placeholder="Password">
       </div>
       <div class="form-group" style="height: 75px;">
-        <label for="Rpassword">Repeat Password</label>
+        <label for="Rpassword"><span class="text-danger">*</span>Repeat Password</label>
         <input type="password" name="repeatPass" class="form-control" id="repeatPass" placeholder=" Repeat Password">
       </div>
       <div class="form-check">
@@ -107,6 +110,12 @@ include_once("header.php");
        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 
-    
+    <?php 
+    } else {
+      header("Location: homepage.php");
+      exit();
+    }
+?>
+
 </body>
 </html>

@@ -43,64 +43,36 @@ include('dbh.inc.php');
 
                         break;
 
-
-                    // case "place":
-                        
-                    //     if(isset($_POST["check_id_code"])){
-                    //         echo '<script language="javascript">';
-                    //         echo 'alert("message successfully sent")';
-                    //         echo '</script>';
-            
-                    //         foreach ($_POST["check_id_code"] as $check_id_code){
-                    //             $select = "SELECT * FROM `checkout_items` WHERE check_code = '$check_id_code'";
-                    //             $result = mysqli_query($conn, $select);
-            
-                    //             while ($row = mysqli_fetch_assoc($result)) {
-                    //                 $item_id = $row["check_id"];
-                    //                 $item_code = $row["check_code"];
-                    //                 $item_name = $row["check_name"];
-                    //                 $item_price = $row["check_price"];
-                    //                 $item_size = $row["check_size"];
-                    //                 $item_quantity = $row["check_quantity"];
-                    //                 $item_total_price = $row["SUM(total_price)"] + 45;
-                    //                 $item_image = $row["check_image"];
-                    //                 $email_address = $row["check_email_add"];
-                                   
-            
-                    //                // $total_price = $item_price * $item_quantity;
-            
-                    //                $insert_to_Orders = "INSERT INTO `orders` (order_item_code, order_item_name, order_item_price, order_item_size, order_item_quantity, order_total_price, order_item_image,
-                    //                order_item_email_add, order_date, order_status) VALUES ('$item_code', '$item_name', '$item_price', '$item_size',
-                    //                 '$item_quantity', '$item_total_price', '$item_image', '$email_address', NOW(), 'To Be Delivered')";
-                    //                $insert_Orders = mysqli_query($conn, $insert_to_Orders);
-                    //             }
-            
-                    //         }
-                    //         echo "successfully placed the item in the database";
-                    //     } else {
-                    //         echo "NOOOO";
-                    //     }
-
-                    //     break;
-
                         case "buy":
                             $item_code = $_POST['item_code'];
                             $item_qty = $_POST['item_qty'];
                             $item_size = $_POST['item_size'];
-    
+            
                             $select_query = "SELECT * FROM `items` WHERE item_code = '$item_code'";
                             $result_query = mysqli_query($conn, $select_query);
-    
+            
                             while ($row = mysqli_fetch_assoc($result_query)) {
                                 $item_name = $row["item_name"];
                                 $item_price = $row["item_price"];
                                 $item_image = $row["item_image1"];
                             }
-    
-                           
-                                $insert_to_check_Table = "INSERT INTO `checkout_items` (check_code, check_name, check_price, check_size, check_quantity, check_image, check_email_add)
-                                VALUES ('$item_code', '$item_name', '$item_price', '$item_size', '$item_qty', '$item_image', '$email_add')";
+                            $total_price = $item_price * $item_qty;
+            
+                            $update_query = "SELECT * FROM `checkout_items` WHERE check_code = '$item_code'";
+                            $result_query = mysqli_query($conn, $update_query);
+            
+                            if (mysqli_num_rows($result_query) > 0) {
+                                $insert_to_check_Table = "UPDATE `checkout_items` SET  check_size = '$item_size', check_quantity = '$item_qty', total_price = '$total_price'";
                                 $insert_result = mysqli_query($conn, $insert_to_check_Table);
+                                $returnArr = ['email_add' => $email_add, 'item_code' => $item_code];
+                                echo json_encode($returnArr);
+                            } else {
+                                $insert_to_check_Table = "INSERT INTO `checkout_items` (check_code, check_name, check_price, check_size, check_quantity, check_image, check_email_add, total_price)
+                                            VALUES ('$item_code', '$item_name', '$item_price', '$item_size', '$item_qty', '$item_image', '$email_add', '$total_price')";
+                                $insert_result = mysqli_query($conn, $insert_to_check_Table);
+                                $returnArr = ['email_add' => $email_add, 'item_code' => $item_code];
+                                echo json_encode($returnArr);
+                            }
                             break;
                     
                     case "update":
@@ -242,17 +214,6 @@ include('dbh.inc.php');
                 }
                 echo "successfully placed the item in the database";
             } 
-
-            
-
-
-
-
-
-
-
-
-
 
 
         } 

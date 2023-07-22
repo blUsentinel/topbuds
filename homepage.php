@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("header.php");
 ?>
 
@@ -19,7 +20,7 @@ include("header.php");
         </div>
     </div>
     <!----2 Columns----->
-    <div class="row" style="height: 200px;">
+    <div class="row" style="height: 900px;">
         <div class="best-selling" style="margin-left: 100px;">
             <h1 style="margin-top: 40px;">Best-Selling Items</h1>
                 <div class="margin-left:100px;">
@@ -27,14 +28,19 @@ include("header.php");
                     displayBestSellingItems();
                 ?>
                 </div>
-                
         </div>
-    
+
+        <div class="best-selling">
+            <h1 class="text-center" style="margin-top: 40px;">New Arrivals</h1>
+                <div class="margin-left:100px;">
+                <?php 
+                    displayBestSellingItems();
+                ?>
+                </div>
+        </div>
         <hr>
 
         <div class="column left">
-
-            
         </div>
         <br>
         <!----Column right----->
@@ -58,24 +64,14 @@ include("header.php");
                     </th>
                 </tr>   
             </table>
-        <!----Sort By Dropdown Menu----->
+
         <h3 class="h6" style="text-align: left;"></h3>
-        <!-- <div class="dropdown">
-            <button onclick="clickDropdown()" class="dropbtn dropdown-toggle" style="text-align: left;" 
-            data-toggle="dropdown">Sort By</button>
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="#">Date Added</a>
-                    <a href="#">Best Selling</a>
-                    <a href="#">Brands</a>
-                </div>
-        </div> -->
 
           <!----ITEMS LIST----->
           <!----fetching products from items table in the database ---->
         <?php 
             displayAllItems();
             get_items_from_Category($conn);
-            
         ?>
         </div> <!---for right column--->
       </div> <!---for row--->
@@ -90,38 +86,12 @@ include("header.php");
     <br><br><br><br><br>
     <br><br><br><br><br>
     
-
       <!----Footer Section----->
-      <div class="footer">
-        <div class="footer_row">
-            <div class="footer_column">
-                <h4 style="color: white;">About TopBuds</h1>
-                    <h6><a href="aboutus.php">About Us</a></h6>
-                    <h6><a href="">Privacy Policy</a></h6>
-                    <h6><a href="">Terms of Use</a></h6>
-                    <h6><a href="">Contact Us</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Info</h1>
-                    <h6><a href="">My Account</a></h6>
-                    <h6><a href="">My Cart</a></h6>
-                    <h6><a href="">Order Status</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Help and FAQs</h1>
-                    <h6><a href="">Online Ordering</a></h6>
-                    <h6><a href="">Shipping</a></h6>
-                    <h6><a href="">Billing</a></h6>
-                    <h6><a href="">Return Item</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">TopBuds Clothing</h1>
-            </div>
-          </div>
+      <?php
+        include("footer.php");
+      ?>
 
-          <hr style="color: white; background-color: white; height: 2px; width: 85%; margin-left: 100px;">
-          <h6 style="margin-top: 130px; text-align: center;">(C) 2022 Topbuds Clothing. All Rights Reserved</h6>
-      </div>
+      
     
 
     <!---JAVASCRIPT----->

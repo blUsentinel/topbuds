@@ -1,8 +1,10 @@
 <?php
-include_once("header.php");
-include_once("includes/functions.inc.php");
-//require("includes/checkout.inc.php");
-?>
+// session_start();
+
+    if(isset($_SESSION['auth'])){
+        include_once("header.php");
+        include_once("includes/functions.inc.php");
+        ?>
 
 <body>
     <div class="content">
@@ -160,5 +162,13 @@ include_once("includes/functions.inc.php");
     }
     }
     </script>
+
+        <?php
+    } else {
+        header("Location: loginpage.php?login_required");
+    }
+?>
+
+
 </body>
 </html>

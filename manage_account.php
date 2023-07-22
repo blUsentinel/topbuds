@@ -1,6 +1,10 @@
 <?php
-include_once("header.php");
-?>
+session_start();
+
+    if(isset($_SESSION['auth'])){
+        include_once("header.php");
+    ?>
+
 <style>
     body{
         background-color: #F0F0F0;
@@ -38,7 +42,7 @@ include_once("header.php");
         <div class="flex-shrink-0 p-3 bg-white" style="width: 230px; margin-left: 70px;">
                 <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
                 <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-                <!-- <span class="fs-5 fw-semibold">Collapsible</span> -->
+
                 </a>
                 <ul class="list-unstyled ps-0">
                 <li class="mb-1">
@@ -119,14 +123,12 @@ include_once("header.php");
                                                         
                                                     </div>
                                                     <div class='column right' style='width: 400px;'>
-                                                        
-                                                    <a href='manage_account.php?edit-account'>
-                                                        <h6 style='float: right;'>Edit</h6>
-                                                    </a> 
+                                            
                                                     <h5>Shipping Address</h5>
                                                     <h6 class='text-dark fw-bold' style='margin-top: 20px; font-size: 20px;'><span style='color: gray;'>Name:</span> $first_name $last_name</h6>
                                                     <h6 class='text-dark' style='font-size: 15px;'><span style='color: gray;'>Address:</span> $account_address Philippines, 4108</h6>
-                                                    <h6 class='text-dark' style='font-size: 15px;'><span style='color: gray;'>Email-Address:</span> $mobile_number</h6>
+                                                    <h6 class='text-dark' style='font-size: 15px;'><span style='color: gray;'>Email-Address:</span> $email_address</h6>
+                                                    <h6 class='text-dark' style='font-size: 15px;'><span style='color: gray;'>Contact Number:</span> $mobile_number</h6>
                                                    
                                                     
                                                 </div>
@@ -147,12 +149,14 @@ include_once("header.php");
         ?>
 
 </div>
+
+     <?php 
+        include("footer.php");
+      ?>
        
        <!---JAVASCRIPT----->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+   
     <script src="jquery-3.6.3.js"></script>
     <!-- Calling jQuery -->
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -268,5 +272,17 @@ include_once("header.php");
           }
         }
         </script>   
+
+
+
+        <?php
+    } else {
+        header("Location: loginpage.php");
+        exit();
+    }
+?>
+
+
+
 </body>
 </html>

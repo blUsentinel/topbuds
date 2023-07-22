@@ -18,21 +18,23 @@
 <body>
 
 <form action="func.php" method="post"
-    style="margin-left: 500px; border: 1px solid gray; width: 410px; margin-top: 50px; height: 400px;">
-    <h1 style="text-align: center;">Log In</h1>
-    <div class="form-group" style="padding-top: 20px;">
-        <label for="username">Username</label>
+    style="margin-left: 500px; border: 1px solid gray; width: 410px; margin-top: 130px; height: 400px;" class="bg-dark text-white">
+    <h1 style="text-align: center;" class="pt-3 pb-3 bg-warning text-dark">Admin Login</h1>
+    <div class="form-group ps-3 pe-3" style="padding-top: 20px;">
+        <label for="username"><span class="text-danger">*</span> Username</label>
         <input type="username" name="username" class="form-control" id="username" aria-describedby="emailHelp"
             placeholder="Enter Username" autocomplete="off">
         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
     </div>
-    <div class="form-group" style="padding-top: 20px;">
-        <label for="password">Password</label>
+    <div class="form-group ps-3 pe-3" style="padding-top: 20px;">
+        <label for="password"><span class="text-danger">*</span>Password</label>
         <input type="password" name="loginpass" class="form-control" id="loginpass" placeholder="Password">
     </div>
-    <h6 class="text-dark text-center">Don't have an account? <span><a href="signuppage.php">Create Account</a></span>
+   
     </h6>
     <button type="submit" name="submit" class="btn btn-primary"
-        style="margin-left: 100px; width: 50%; margin-top: 10px;">Log In</button>
+        style="margin-left: 100px; width: 50%; margin-top: 30px;">Log In</button>
+    </form>
+    <p class="text-center">TopBuds E-Commerce Website v.0.01.23</p>
 
         

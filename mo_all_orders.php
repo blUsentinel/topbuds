@@ -1,8 +1,9 @@
 <?php
-include_once("header.php");
-include_once("includes/functions.inc.php");
-//require("includes/checkout.inc.php");
-?>
+
+    if(isset($_SESSION['auth'])){
+        include_once("header.php");
+        include_once("includes/functions.inc.php");
+        ?>
 
 <body>
     <div class="content">
@@ -63,11 +64,11 @@ include_once("includes/functions.inc.php");
                                                         <td class="text-center"> <?= $item["order_date"] ?></td>
                                                         <td class="text-center"> <?= $item["order_status"] ?></td>
                                                         <?php 
-                                                            if($item["order_status"] == "To Ship"){
+                                                            if($item["order_status"] == "To Ship" || $item["order_status"] == "Placed"){
                                                                 ?>
                                                                 <td class="text-center">
                                                                     <input type="hidden" class="package_num" value='<?= $item['package_num'] ?>'>
-                                                                    <button type="button" value='<?= $item['package_num'] ?>' name="cancel_orderBtn" id="cancel_orderBtn" class="btn btn-danger">Cancel Order</button>
+                                                                    <button type="button" style="height: 30px; font-size: 17px;" value='<?= $item['package_num'] ?>' name="cancel_orderBtn" id="cancel_orderBtn" class="btn btn-danger">Cancel Order</button>
                                                                 </td>
                                                                 <?php
                                                             } else if($item["order_status"] == "In-Transit"){
@@ -93,7 +94,7 @@ include_once("includes/functions.inc.php");
                                         ?>
                                         </tbody>   
                                     </table>
-                          
+                                                            
                       <?php
                       
                     }
@@ -106,7 +107,6 @@ include_once("includes/functions.inc.php");
         </div> <!---for row--->
 
       <!----Footer Section----->
-      
     
 
     <!---JAVASCRIPT----->
@@ -178,5 +178,13 @@ include_once("includes/functions.inc.php");
     }
     }
     </script>
+
+        <?php
+    } else {
+        header("Location: loginpage.php?login_required");
+    }
+?>
+
+
 </body>
 </html>

@@ -1,8 +1,10 @@
 <?php
-include_once("header.php");
-include_once("includes/functions.inc.php");
-//require("includes/checkout.inc.php");
-?>
+// session_start();
+
+    if(isset($_SESSION['auth'])){
+        include_once("header.php");
+        include_once("includes/functions.inc.php");
+        ?>
 
 <body>
     <div class="content">
@@ -59,9 +61,9 @@ include_once("includes/functions.inc.php");
                                                         <td> <?= $item["order_item_quantity"] ?></td>
                                                         <td> <?= $item["order_total_price"] ?></td>
                                                         <td> <?= $item["order_date"] ?></td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <input type="hidden" class="package_num" value='<?= $item['package_num'] ?>'>
-                                                            <button type="button" value='<?= $item['package_num'] ?>' name="cancel_orderBtn" id="cancel_orderBtn" class="btn btn-danger">Cancel Order</button>
+                                                            <button type="button" style="height: 30px; font-size: 17px;" value='<?= $item['package_num'] ?>' name="cancel_orderBtn" id="cancel_orderBtn" class="btn btn-danger">Cancel Order</button>
                                                         </td>
                                                     </tr>
                                                 <?php
@@ -159,5 +161,18 @@ include_once("includes/functions.inc.php");
     }
     }
     </script>
+
+
+
+
+
+
+        <?php
+    } else {
+        header("Location: loginpage.php?login_required");
+    }
+?>
+
+
 </body>
 </html>

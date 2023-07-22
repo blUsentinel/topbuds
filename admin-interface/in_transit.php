@@ -1,6 +1,11 @@
 <?php
 include_once("../includes/dbh.inc.php");
 include_once("../includes/functions.inc.php");
+
+if(empty($_SESSION['admin_username']) || $_SESSION['admin_auth'] == false){
+    header("Location: admin.login.php");
+    die();
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,18 +19,14 @@ include_once("../includes/functions.inc.php");
      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="page.css"> -->
 
-
-
-
-
 </head>
     
 <body>
     <div class="container shadow-lg bg-white" style="margin-top: 50px; width:100%;">
         <h1 class="text-start pt-3 pb-3">In-Transit</h1>
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="main_dashboard.php?orders">Orders List</a>
+            <ul class="nav nav-tabs nav-fill">
+                  <li class="nav-item">
+                    <a class="nav-link" href="orders.php">Orders List</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="main_dashboard.php?placed_orders">Placed Orders</a>

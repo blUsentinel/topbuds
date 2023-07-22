@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once("header.php");
 include_once("includes/signuppage.inc.php");
 ?>
@@ -54,8 +55,6 @@ include_once("includes/signuppage.inc.php");
                     onchange="getCitiesMunicipalities(this.value)" name="provinces">
                         <option value="">Province</option>
                         <option value="Cavite">Cavite</option>
-                        <!-- <option value="Marikina">Marikina</option>
-                        <option value="Manila">Manila</option> -->
                     </select>
                 </div>
                 <div class="cityMunSelect">
@@ -104,37 +103,9 @@ include_once("includes/signuppage.inc.php");
 </div>  
 
     <!----Footer Section----->
-    <div class="footer" style="margin-top: 70px;">
-        <div class="footer_row">
-            <div class="footer_column">
-                <h4 style="color: white;">About TopBuds</h1>
-                    <h6>About Us</h6>
-                    <h6>Privacy Policy</h6>
-                    <h6>Terms of Use</h6>
-                    <h6>Contact Us</h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Info</h1>
-                    <h6>My Account</h6>
-                    <h6>My Cart</h6>
-                    <h6>Order Status</h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Help and FAQs</h1>
-                    <h6>Online Ordering</h6>
-                    <h6>Shipping</h6>
-                    <h6>Billing</h6>
-                    <h6>Return Item</h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">TopBuds Clothing</h1>
-            </div>
-          </div>
-
-          <hr style="color: white; background-color: white; height: 2px; width: 85%; margin-left: 100px;">
-
-          <h6 style="margin-top: 130px; text-align: center;">(C) 2022 Topbuds Clothing. All Rights Reserved</h6>
-      </div>
+     <?php 
+        include("footer.php");
+      ?>
 
   
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

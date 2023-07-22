@@ -97,7 +97,7 @@
         $_SESSION['auth'] = true;
         $_SESSION["userEmailAdd"] = $user_exists["email_add"];
         $_SESSION["user_Id"] = $user_exists["user_id"];
-        header("Location: ../homepage.php?error=none");
+        header("Location: ../index.php?error=none");
         exit();
     }
 
@@ -125,7 +125,7 @@
                 $_SESSION['auth'] = true;
                 $_SESSION["userEmailAdd"] = $user_exists["email_add"];
                 $_SESSION["user_Id"] = $user_exists["user_id"];
-                header("Location: ../homepage.php?successful-login");
+                header("Location: ../index.php?successful-login");
                 exit();
         }
 
@@ -142,7 +142,7 @@
                 $_SESSION['auth'] = true;   
                 $_SESSION["userEmailAdd"] = $user_exists["email_add"];
                 $_SESSION["user_Id"] = $user_exists["user_id"];
-                header("Location: ../homepage.php?successful-login");
+                header("Location: ../index.php?successful-login");
                 exit();
         } 
     }
@@ -153,7 +153,6 @@
         if (isset($_GET['search_btn'])) {
             if (!isset($_GET["mens_category"])) {
                 if (!isset($_GET["womens_category"])) {
-
 
                     $searchFor = $_GET["search_query"];
                     $select_query = "SELECT * FROM `items` WHERE item_name LIKE '%$searchFor%' AND item_status = 'Available'";
@@ -177,7 +176,7 @@
                         // displaying items in the HTML homepage
                         echo "
                         
-                        <a style='text-decoration: none; color: black;' href='itemclickpage.php'>
+                        <a style='text-decoration: none; color: black;' href='itemclickpage.php?item_code=$item_code&item_category=$item_category&click_on_item=$item_name'>
                             <figure class='figure' style='width: 210px;'>
                                 <img src='./admin-interface/item_images/$item_image1' class='figure-img img-fluid rounded m-3' style='height: 200px;' alt='$item_name'>
                                 <figcaption class='item_name'>$item_name</figcaption>
@@ -197,6 +196,41 @@
             if(!isset($_GET["mens_category"])){
                 if(!isset($_GET["womens_category"])){
                     $select_query = "SELECT * FROM `items` WHERE item_status = 'Available' ORDER BY num_sold DESC LIMIT 0,5"; //rand() function to randomize items display 
+                    $result_query = mysqli_query($conn, $select_query); // LIMIT function to limit the items to be displayed
+
+                    while($row = mysqli_fetch_assoc($result_query)){
+                        $item_id = $row["item_id"];
+                        $item_code = $row["item_code"];
+                        $item_name = $row["item_name"];
+                        $item_price = $row["item_price"];
+                        $item_description = $row["item_description"];
+                        $item_keyword = $row["item_keyword"];
+                        $item_category = $row["item_category"];
+                        $item_image1 = $row["item_image1"];
+                        $num_sold = $row["num_sold"];
+
+                        // displaying items in the HTML homepage
+                        echo "<a style='text-decoration: none; color: black;' href='itemclickpage.php?item_code=$item_code&item_category=$item_category&click_on_item=$item_name'>
+                        <figure class='figure' style='width: 210px;'>
+                            <h6 style='padding-left: 15px; margin-bottom: -10px;'>$num_sold sold</h6>
+                            <img src='./admin-interface/item_images/$item_image1' class='figure-img img-fluid rounded m-3' style='height: 200px;' alt='$item_name'>
+                            <figcaption class='item_name'>$item_name</figcaption>
+                            <figcaption class='item_price'>₱$item_price.00</figcaption>
+                        </figure>
+                    </a>";
+                    }
+                }
+            }
+        }        
+    }
+
+    function displayNewArrivals(){
+        global $conn;
+        
+        if(!isset($_GET['search_btn'])){
+            if(!isset($_GET["mens_category"])){
+                if(!isset($_GET["womens_category"])){
+                    $select_query = "SELECT * FROM `items` WHERE item_status = 'Available' ORDER BY date_added DESC LIMIT 0,5"; //rand() function to randomize items display 
                     $result_query = mysqli_query($conn, $select_query); // LIMIT function to limit the items to be displayed
 
                     while($row = mysqli_fetch_assoc($result_query)){
@@ -245,7 +279,7 @@
                         $item_image1 = $row["item_image1"];
 
                         // displaying items in the HTML homepage
-                        echo "<a style='text-decoration: none; color: black;' href='itemclickpage.php?item_code=$item_code&item_category=$item_category&click_on_item=$item_name'>
+                        echo "<a style='text-decoration: none; color: black;' href='itemclickpage.php?item_code=$item_code&click_on_item=$item_name'>
                         <figure class='figure' style='width: 210px;'>
                             <img src='./admin-interface/item_images/$item_image1' class='figure-img img-fluid rounded m-3' style='height: 200px;' alt='$item_name'>
                             <figcaption class='item_name'>$item_name</figcaption>
@@ -355,22 +389,17 @@
                         $item_category = $row["item_category"];
                         $item_image1 = $row["item_image1"];
                         $sizes_available = $row["sizes_available"];
+                        $sm_stocks = $row["sm_stocks"];
+                        $md_stocks = $row["md_stocks"];
+                        $lg_stocks = $row["lg_stocks"];
+                        $xl_stocks = $row["xl_stocks"];
                         $num_sold = $row["num_sold"];
                         $num_left = $row["num_left"];
 
-                        if (str_contains($item_category, 'Mens')) {
-                            echo "<div class='item_path' style='margin-top: 50px; margin-left: 100px;'>
-                                  <p id='item_path'>Mens Clothing > $item_category > $item_name</p>
-                                  </div>";
-                        } else if (str_contains($item_category, 'Womens')){
-                            echo "<div class='item_path' style='margin-top: 50px; margin-left: 100px;'>
-                                  <p id='item_path'>Womens Clothing > $item_category > $item_name</p>
-                                  </div>";
-                        }
                         // displaying the clicked item
                         echo "
                         <!----2 Columns----->
-                      <div class='row'>
+                      <div class='row mt-5'>
                         <div class='column left' style='background-color: rgb(255, 255, 255); height: 500px; 
                         width: 30%;'>
                         <img class='border border-dark' style='margin: 0; padding: 0; height: 400px; width: 400px;' src='./admin-interface/item_images/$item_image1' alt=''>
@@ -401,10 +430,64 @@
                         $new = explode(", ",$sizes_available); 
 
                         foreach($new as $val){
-                            echo "
-                                            <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off'>
-                                            <label class='btn btn-outline-dark' for='$val'>$val</label>
+                         
+                            if($val == "Small"){
+                                if($sm_stocks > 0){
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off'>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
                                         ";
+                                } else {
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off' disabled>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
+                                        ";
+                                }
+                            }
+                            if($val == "Medium"){
+                                if($md_stocks > 0){
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off'>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
+                                        ";
+                                } else {
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off' disabled>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
+                                        ";
+                                }
+                            } 
+                            if($val == "Large"){
+                                if($lg_stocks > 0){
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off'>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
+                                        ";
+                                } else {
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off' disabled>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
+                                        ";
+                                }
+                            } 
+                            if($val == "Extra Large"){
+                                if($xl_stocks > 0){
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off'>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
+                                        ";
+                                } else {
+                                    echo "
+                                        <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off' disabled>
+                                        <label class='btn btn-outline-dark' for='$val'>$val</label>
+                                        ";
+                                }
+                            } 
+                                
+                            // echo "
+                            //                 <input type='radio' class='btn-check' name='radio' value='$val' id='$val' autocomplete='off'>
+                            //                 <label class='btn btn-outline-dark' for='$val'>$val</label>
+                            //             ";
                         }
 
                                         echo "
@@ -442,6 +525,8 @@
                     }
                 }
             }
+        } else {
+            echo "hey";
         }
     }
 
@@ -450,14 +535,14 @@
     function get_Suggestion(){
     global $conn;
 
-    if(isset($_GET["item_category"])){
+    if(isset($_GET["item_name"])){
         if (isset($_GET["item_code"])){
             if (!isset($_GET['search_btn'])){
                 if (!isset($_GET["mens_category"])){
                     if (!isset($_GET["womens_category"])){
 
-                        $category_name = $_GET["item_category"];
-                        $select_query = "SELECT * FROM `items` WHERE item_category = '$category_name' LIMIT 0,5"; //rand() function to randomize items display 
+                        $item_name = $_GET["item_name"];
+                        $select_query = "SELECT * FROM `items` WHERE item_name LIKE 'shirt'"; //rand() function to randomize items display 
                         $result_query = mysqli_query($conn, $select_query); // LIMIT function to limit the items to be displayed
 
                         // It's okay if you fail, life is like 
@@ -609,29 +694,29 @@
     }
     }
 
-    function get_checkout_Items(){
+   function get_checkout_Items()
+    {
         global $conn;
-
-        if(isset($_GET["item_code"])){
+    
+        if (isset($_GET["item_code"])) {
+            $itemCode = $_GET["item_code"];
+            // echo "<script>alert('$itemCode')</script>";
+            $itemsArr = explode(",", $itemCode);
+            // echo "<script>alert(".implode(',', $itemsArr).")</script>";
+            // foreach ($itemsArr as $item) {
             $email_add = $_GET["email_add"];
-        //    $check_code[] = $_GET["item_code"];
-            $check_code = $_GET["item_code"];
-            $new = explode(",", $check_code);
-           // $ids = join("','",$check_code);   
-            $_SESSION['check_code'] = $check_code;
-            
-            // echo '<script language="javascript">';
-            // echo 'alert("message successfully sent")';
-            // echo '</script>';
-
-           // $data = json_decode(stripslashes($check_code));
-
-            //foreach ($new as $code){
-                $select_query = "SELECT * FROM `cart_table` WHERE email_add = '$email_add' AND item_id IN (" . implode(',', $new) . ")";
-                return $result_query = mysqli_query($conn, $select_query);
-           // }
+            if (!isset($_GET["checkout"]))
+                $select_query = "SELECT * FROM `cart_table` WHERE email_add = '$email_add' AND item_id IN (" . implode(',', array_filter($itemsArr)) . ")";
+            else
+                $select_query = "SELECT * FROM `checkout_items` WHERE check_email_add = '$email_add' AND check_code IN (" . implode(',', array_filter($itemsArr)) . ")";
+    
+            // }
+    
+            // echo "<script>alert('$select_query')</script>";
+            return mysqli_query($conn, $select_query);
+            // }
         }
-        }
+    }
 
     
     function getMyOrders(){

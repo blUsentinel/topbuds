@@ -1,8 +1,10 @@
 <?php
-include("header.php");
-include_once("includes/functions.inc.php");
-//require("includes/checkout.inc.php");
-?>
+session_start();
+
+    if(isset($_SESSION['auth'])){
+      include("header.php");
+      include_once("includes/functions.inc.php"); 
+      ?>
 
 <body>
     <div class="content">
@@ -27,6 +29,7 @@ include_once("includes/functions.inc.php");
                       $select_from_orders = "SELECT * FROM `orders` WHERE order_email_add = '$email_address'";
                       $select_query = mysqli_query($conn, $select_from_orders);
 
+       
                       while($row = mysqli_fetch_assoc($select_query)){
                          $package_unique_num = $row["package_num"];
                       }
@@ -40,22 +43,14 @@ include_once("includes/functions.inc.php");
 
                                     <p class="text-center" style="padding-top: 70px; padding-left: 100px; padding-right: 100px;">Dear <?php echo "<b>".$first_name. " " .$last_name."</b>"?>, Your order which has a package number of (<?php echo "<b>".$package_unique_num."</b>"?>) has been successfully received and processed by our
                                 system. We appreciate you and hope you enjoy your new purchase. Thank you for choosing TopBuds!. Your support means a lot to us.</p>
-
-
-
-                                <!-- <h6 style='margin-top: 20px; color: black;'>Name: <?php echo $first_name. " " .$last_name ?></h6>
-                                <h6 style="color: black">Address: <?php echo $account_address?></h6>
-                                <h6 style="color: black">Contact Number: <?php echo $mobile_number?></h6>
-                                <h6 style="color: black ">Email-Address: <?php echo $email_address?></h6> -->
                               
                             </div>
 
                             <div class="buttons text-center pt-4">
-                                <a class="btn btn-primary" href="homepage.php" role="button">Go to Home</a>
+                                <a class="btn btn-primary" href="index.php" role="button">Go to Home</a>
                                 <a class="btn btn-warning" href="my_orders.php" role="button">My Orders</a>
                             </div>
-                          
-
+                        
                       <?php
                       
                     }
@@ -104,19 +99,6 @@ include_once("includes/functions.inc.php");
     <!---JAVASCRIPT----->
     <script src="jquery-3.6.3.js"></script>
     <script src="./assets/checkout_function.js"></script>
-
-     
-    <!-- <script language="JavaScript">
-      window.onbeforeunload = confirmExit;
-      function confirmExit()
-      {
-        var choice;
-        return "You have attempted to leave this page.  If you have made any changes to the fields without clicking the Save button, your changes will be lost.  Are you sure you want to exit this page?";
-        if(choice == "Reload"){
-          alert("HAHA");
-        }
-      }
-    </script> -->
 
     <script>
         document.addEventListener("DOMContentLoaded", function(){
@@ -168,5 +150,13 @@ include_once("includes/functions.inc.php");
     }
     }
     </script>
+
+      <?php
+    } else {
+      header("Location: loginpage.php?login_required");
+      exit();
+    }
+?>
+
 </body>
 </html>

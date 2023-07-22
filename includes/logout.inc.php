@@ -11,7 +11,6 @@ if(isset($_SESSION['auth']) && $_SESSION == true){
 session_unset();
 session_destroy();
 
-
 header("Location: ../loginpage.php");
 exit();
 ?>

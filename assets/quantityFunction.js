@@ -39,7 +39,8 @@ $(document).ready(function (){
         var item_code = $(this).val();
         var size = $(".btn-check:checked").val();
 
-        $.ajax({
+        if (size != null) { 
+            $.ajax({
             method: "POST",
             url: "includes/handle_cart.php",
             data: {  
@@ -58,6 +59,11 @@ $(document).ready(function (){
                 alert("Something went wrong");
              }
         });
+        } else {
+            alert("Please select size before adding to cart.");
+        }
+
+        
     });
 
 
@@ -76,10 +82,10 @@ $(document).ready(function (){
                 "scope": "update"
             },
             success: function(response){
-                alert(response);
+                // alert(response);
             }, 
             error: function(response) {
-                alert(response);
+                // alert(response);
              }
         });
     });
@@ -263,35 +269,38 @@ $(document).ready(function (){
 
     }
 
-    $(document).on('click', '.buyNowBtn', function(e) {
+    $(document).on('click', '.buyNowBtn', function (e) {
         e.preventDefault();
-
+        // alert("asdad");
         var qty = $(this).closest('.item_data').find('.input-qty').val();
-        var item_code = $("#itemcode").val();
+        var item_code = $(this).val();
         var size = $(".btn-check:checked").val();
-        var getEmail = $("#emailval").val();
-        var status = "buynow";
 
-        alert(getEmail);
-        alert(item_code + " : " + qty + " : " +size);
+        if (size != null) {
+            // alert(qty + " " + item_code + " " + size);
+            $.ajax({
+                method: "POST",
+                url: "includes/handle_cart.php",
+                data: {
+                    "item_code": item_code,
+                    "item_qty": qty,
+                    "item_size": size,
+                    "scope": "buy"
+                },
+                success: function (response) {
+                        const a = JSON.parse(response);
+                        window.location.assign("ordersummarypage.php?email_add=" + a.email_add + "&item_code=" + a.item_code + "&checkout=true");
+                       
+                },
+                error: function (response) {
+                    alert("Something went wrong");
+                   
+                }
+            });
+        } else {
+            alert("Please select size before adding to cart.");
+        }
 
-        $.ajax({
-            method: "POST",
-            url: "includes/handle_cart.php",
-            data: {  
-                "item_code": item_code,
-                "item_qty": qty,
-                "item_size": size,
-                "scope": "buy"
-            },
-            success: function(response){
-                alert("Item has been checked out!");
-                window.location.href = "ordersummarypage.php?email_add="+getEmail+"&item_code="+item_code+"&size="+size+"&qty="+qty+"&method="+status;
-            },
-            error: function(response) {
-                alert("Something went wrong");    
-             }
-        });
     });
 
     $("#checkout_btn").click(function(){
@@ -309,6 +318,8 @@ $(document).ready(function (){
         $(':checkbox:checked').each(function(i){
             check_id[i] = $(this).val();
         });
+
+       
 
         $.ajax({
             method: "POST",

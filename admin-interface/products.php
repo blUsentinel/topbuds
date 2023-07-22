@@ -13,6 +13,7 @@ include_once("../includes/functions.inc.php");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="page.css"> -->
+    
 
     <style>
         /* The Modal (background) */
@@ -87,6 +88,8 @@ include_once("../includes/functions.inc.php");
                     <th>Item Price</th>
                     <th>Sizes</th>
                     <th>Status</th>
+                    <th>Stocks</th>
+                    <th>Sold</th>
                     <th colspan="2">Action</th>
                 </tr>
             </thead>
@@ -103,6 +106,8 @@ include_once("../includes/functions.inc.php");
                     <td class="text-center"><?php echo $row["sizes_available"] ?></td>
                     <td class="text-center"><?php echo $row["item_status"] ?></td>
                     <!-- <td class="text-center"><button type="button" class="btn btn-link">Edit</button></td> -->
+                    <td class="text-center"><?php echo $row["num_left"] ?></td>
+                    <td class="text-center"><?php echo $row["num_sold"] ?></td>
                     <td class="text-center" width="16%">
                         <button type="button" name="editBtn" id="editBtn" value="<?php echo $row["item_code"]; ?>" class="btn btn-success">
                             Edit

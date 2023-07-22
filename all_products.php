@@ -1,101 +1,54 @@
 <?php
+session_start();
 include("header.php");
 ?>
 
 <body>
     <div class="content">
-        
-    <!----2 Columns----->
-    <div class="row" style="height: 2000px;">
-        <div class="column left">
-
+      <div class="row">
+        <div class="best-selling" style="margin-left: 100px;">
+          <h1 style="margin-top: 40px;">Best-Selling Items</h1>
+            <div class="margin-left:100px;">
+              <?php 
+                displayBestSellingItems();
+              ?>
+            </div>
         </div>
-        <!----Column right----->
-        <div class="column right" style="background-color: white;">
-        
-            <table>
-                <tr>
-                    <th>
-                        <br><br>
-                        <h1 class="h3">All Products</h1>
-                    </th>
-                    <!----Page Number Buttons----->
-                    <th style="padding-left: 400px;">
-                        <div class="nav_buttons">
-                            <br><br>
-                            <button type="btn">1</button>
-                            <button type="btn">2</button>
-                            <button type="btn">3</button>
-                            <button type="btn">4</button>
-                        </div>
-                    </th>
-                </tr>   
-            </table>
-        <br><br><br>
-        <!----Sort By Dropdown Menu----->
-        <h3 class="h6" style="text-align: left;"></h3>
-      
+        <hr>
 
-          <!----ITEMS LIST----->
-          <!----fetching products from items table in the database ---->
-        <?php 
-            displayAllItems();
-            get_items_from_Category($conn);
-            checkSearch();
-        ?>
-
-        </div> <!---for right column--->
-      </div> <!---for row--->
-    </div>
-
-    <div class="btn-group">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-    Harvey
-  </button>
-  <ul class="dropdown-menu dropdown-menu-lg-end">
-    <li><button class="dropdown-item" type="button">Action</button></li>
-    <li><button class="dropdown-item" type="button">Another action</button></li>
-    <li><button class="dropdown-item" type="button">Something else here</button></li>
-  </ul>
-</div>
-
+        <div class="column left" style="margin-bottom: 1000px;">
+        </div>
+          <br>
+        <div class="column right" style="background-color: white; margin-bottom: 1000px;">
+                      <table>
+                          <tr>
+                              <th>
+                                  <br><br>
+                                  <h1 class="h3">All Products</h1>
+                              </th>
+                            
+                          </tr>   
+                      </table>
+                  <br><br><br>
+                  <!----Sort By Dropdown Menu----->
+                  <h3 class="h6" style="text-align: left;"></h3>
+                
+                  <?php 
+                      displayAllItems();
+                      checkSearch();
+                  ?>
+          </div> <!---for right column--->
+        </div> <!---for row--->
+      </div>
 
       <!----Footer Section----->
-      <div class="footer">
-        <div class="footer_row">
-            <div class="footer_column">
-                <h4 style="color: white;">About TopBuds</h1>
-                    <h6><a href="aboutus.php">About Us</a></h6>
-                    <h6><a href="">Privacy Policy</a></h6>
-                    <h6><a href="">Terms of Use</a></h6>
-                    <h6><a href="">Contact Us</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Info</h1>
-                    <h6><a href="">My Account</a></h6>
-                    <h6><a href="">My Cart</a></h6>
-                    <h6><a href="">Order Status</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">Help and FAQs</h1>
-                    <h6><a href="">Online Ordering</a></h6>
-                    <h6><a href="">Shipping</a></h6>
-                    <h6><a href="">Billing</a></h6>
-                    <h6><a href="">Return Item</a></h6>
-            </div>
-            <div class="footer_column">
-                <h4 style="color: white;">TopBuds Clothing</h1>
-            </div>
-          </div>
-
-          <hr style="color: white; background-color: white; height: 2px; width: 85%; margin-left: 100px;">
-          <h6 style="margin-top: 130px; text-align: center;">(C) 2022 Topbuds Clothing. All Rights Reserved</h6>
-      </div>
-    
-
+ 
+        <?php 
+        include("footer.php");
+        ?>
+  
     <!---JAVASCRIPT----->
     <script src="jquery-3.6.3.js"></script>
-
     <script>
     document.addEventListener("DOMContentLoaded", function(){
         document.querySelectorAll('.sidebar .nav-link').forEach(function(element){

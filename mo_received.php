@@ -1,8 +1,10 @@
 <?php
-include_once("header.php");
-include_once("includes/functions.inc.php");
-//require("includes/checkout.inc.php");
-?>
+// session_start();
+
+    if(isset($_SESSION['auth'])){
+        include_once("header.php");
+        include_once("includes/functions.inc.php");
+        ?>
 
 <body>
     <div class="content">
@@ -60,7 +62,7 @@ include_once("includes/functions.inc.php");
                                                         <td> <?= $item["order_total_price"] ?></td>
                                                         <td> <?= $item["order_date"] ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-danger">RECEIVED</button>
+                                                            Received
                                                         </td>
                                                     </tr>
                                                 <?php
@@ -158,5 +160,17 @@ include_once("includes/functions.inc.php");
     }
     }
     </script>
+
+
+
+
+        <?php
+    } else {
+        header("Location: loginpage.php?login_required");
+        exit();
+    }
+?>
+
+
 </body>
 </html>
