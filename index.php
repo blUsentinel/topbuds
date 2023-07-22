@@ -5,7 +5,7 @@ include("header.php");
 
 <body>
     <div class="content">
-        <!----Banner----->
+        <!----Banner-->
     <div class="banner">
         <div id="carousel-slider">
             <div>
